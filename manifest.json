@@ -4,7 +4,7 @@
     "description": "Build an Extension!",
     "permissions": ["declarativeContent", "storage", "tabs", "activeTab", "http://*/*", "https://*/*"],
     "background": {
-      "scripts": ["background.js","js/socket.io.js"],
+      "scripts": ["js/socket.io.js", "background.js"],
       "persistent": false
     },
     "icons": {
