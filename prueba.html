@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="socket.io.js"></script>
+</head>
+<body>
+    <input type="text" id="texto" onkeyup="poniendoPalabra()">
+    <button id="buscar" onclick="buscar()">Buscar</button>
+    <div id="resultados"></div>
+</body>
+</html>
+<script>
+const socket = io('http://11.11.15.8:8080');
+var palabraBusqueda;
+function poniendoPalabra(){
+    var palabraBusqueda = document.getElementById("texto").value;
+    socket.emit('servidor-funcion',`document.getElementById("search-input").childNodes[0].value = "${palabraBusqueda}";`)
+}
+function buscar(){
+    socket.emit('servidor-funcion',`document.getElementById("search-icon-legacy").click();`)
+}
+socket.on('resultados', function(data){
+    data = data[0].filter(v => v != '');
+    document.getElementById("resultados").innerHTML = "";
+    data.map((data)=>{
+        console.log(data);
+        var a = document.createElement('a');
+        var linkText = document.createTextNode(data["titulo"]);
+        a.appendChild(linkText);
+        a.title = data["titulo"];
+        a.href = data["href"];
+        document.getElementById("resultados").appendChild(a);
+
+    });
+    
+});
+</script>
