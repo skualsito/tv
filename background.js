@@ -22,7 +22,6 @@ chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
 });
 
 
- 
 socket.on('mandar-funcion', function(data){
   chrome.tabs.executeScript(tabloca, {file:'js/jquery.min.js'}, function(result){
     chrome.tabs.executeScript(tabloca, {code: data}, function (){
@@ -30,10 +29,10 @@ socket.on('mandar-funcion', function(data){
   });
 });
 
-
 socket.on('obtener-recomendados-yt', function(){
     obtRecom();
 });
+
 function obtRecom(){
   chrome.tabs.executeScript(tabloca, {file:'js/jquery.min.js'}, function(result){
     chrome.tabs.executeScript(tabloca, {file:'apps/yt/home.js'}, function(resultado){
@@ -42,11 +41,8 @@ function obtRecom(){
   });
 }
 
-
-
-  
 socket.on('obtener-resultados-yt', function(){
-    obtResul();
+  obtResul();
 });
 
 function obtResul() {
@@ -55,6 +51,8 @@ function obtResul() {
       socket.emit('servidor-resultados', resultado);
     });
   });
+
 }
 
   
+
