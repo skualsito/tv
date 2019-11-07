@@ -2,7 +2,7 @@ var socket = io('http://localhost:8080');
 var tabloca;   
 chrome.browserAction.onClicked.addListener(function(tab) {
   chrome.tabs.create({'url': chrome.extension.getURL('index.html')}, function(tab) {
-
+    tabloca = tab.id;
   });
 });
 chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
@@ -11,16 +11,22 @@ chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
 
 
     } else if(tab.url.indexOf("youtube.com") !== -1){
-      tabloca = tabid;   
       obtRecom();
       if(tab.url.indexOf("youtube.com/results") !== -1){
         obtResul();
+      }
+      if(tab.url.indexOf("youtube.com/watch") !== -1){
+        socket.emit("com-bg-app", "activar-control");
       }
       
     }
   }
 });
 
+
+socket.on('index', function(){
+  chrome.tabs.update(tabloca, {url: chrome.extension.getURL('index.html')});
+});
 
 socket.on('mandar-funcion', function(data){
   chrome.tabs.executeScript(tabloca, {file:'js/jquery.min.js'}, function(result){
