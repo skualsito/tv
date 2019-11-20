@@ -38,4 +38,9 @@ io.on('connection', function(socket) {
       if(data)
       io.emit("yt-on-client", data[0]);
     });
+
+    socket.on("netflix-home", function(data){
+      if(data)
+      io.emit("netflix-home-client", data[0]);
+    });
 });
