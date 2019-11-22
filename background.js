@@ -9,9 +9,13 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
   if (changeInfo.status == 'complete') {
     if(tab.url.indexOf("netflix.com") !== -1) {
+      console.log(tab.url);
       if(tab.url.indexOf("netflix.com/browse") !== -1){
         netflixHome();
+      } else if(tab.url.indexOf("netflix.com/watch") !== -1){
+        socket.emit("com-bg-app", "activar-control");
       }
+      
 
     } else if(tab.url.indexOf("youtube.com") !== -1){
       obtRecom();
