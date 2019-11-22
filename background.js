@@ -1,5 +1,6 @@
-var socket = io('http://localhost:8080');
-var tabloca;   
+var socket = io('http://11.11.15.8:8080');
+var tabloca;
+
 chrome.browserAction.onClicked.addListener(function(tab) {
   chrome.tabs.create({'url': chrome.extension.getURL('index.html')}, function(tab) {
     tabloca = tab.id;
@@ -24,6 +25,7 @@ chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
     }
   }
 });
+
 
 
 socket.on('index', function(){
@@ -79,5 +81,4 @@ function obtResul() {
 
 }
 
-  
 
