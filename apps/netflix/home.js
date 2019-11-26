@@ -37,6 +37,6 @@ if($(".list-profiles").length > 0){
         
     });
 
-    var resultado = [{grande: grande, todo: arrayTodo, tipo: 2}];
+    var resultado = [{grande: grande, todo: arrayTodo, avatar: $(".profile-icon").attr("src"), tipo: 2}];
 }
 resultado
