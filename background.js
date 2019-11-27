@@ -7,13 +7,16 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   });
 });
 chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
+  if(tabid != tabloca)
+    return false;
   if (changeInfo.status == 'complete') {
     if(tab.url.indexOf("netflix.com") !== -1) {
-      console.log(tab.url);
       if(tab.url.indexOf("netflix.com/browse") !== -1){
         netflixHome();
       } else if(tab.url.indexOf("netflix.com/watch") !== -1){
         socket.emit("com-bg-app", "activar-control");
+      } else if(tab.url.indexOf("netflix.com/search") !== -1){
+        netflixSearch();
       }
       
 
@@ -53,6 +56,14 @@ function netflixHome(){
         socket.emit("netflix-home", resultado);
     });
   });
+}
+function netflixSearch() {
+  chrome.tabs.executeScript(tabloca, {file:'js/jquery.min.js'}, function(result){
+    chrome.tabs.executeScript(tabloca, {file:'apps/netflix/busqueda.js'}, function(resultado){
+      socket.emit('servidor-resultados', resultado);
+    });
+  });
+
 }
 
 
