@@ -43,4 +43,10 @@ io.on('connection', function(socket) {
       if(data)
       io.emit("netflix-home-client", data[0]);
     });
+
+    socket.on("netflix-subtitulos", function(data){
+      if(data)
+      io.emit("netflix-subtitulos-client", data[0]);
+    });
+
 });

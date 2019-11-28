@@ -50,6 +50,9 @@ socket.on('mandar-funcion', function(data){
 socket.on('obtener-netflix-home', function(){
   netflixHome();
 });
+socket.on('obtener-netflix-audsub', function(){
+  netflixSubtitulos();
+});
 function netflixHome(){
   chrome.tabs.executeScript(tabloca, {file:'js/jquery.min.js'}, function(result){
     chrome.tabs.executeScript(tabloca, {file:'apps/netflix/home.js'}, function(resultado){
@@ -61,6 +64,15 @@ function netflixSearch() {
   chrome.tabs.executeScript(tabloca, {file:'js/jquery.min.js'}, function(result){
     chrome.tabs.executeScript(tabloca, {file:'apps/netflix/busqueda.js'}, function(resultado){
       socket.emit('servidor-resultados', resultado);
+    });
+  });
+
+}
+
+function netflixSubtitulos() {
+  chrome.tabs.executeScript(tabloca, {file:'js/jquery.min.js'}, function(result){
+    chrome.tabs.executeScript(tabloca, {file:'apps/netflix/subtitulos.js'}, function(resultado){
+      socket.emit('netflix-subtitulos', resultado);
     });
   });
 
