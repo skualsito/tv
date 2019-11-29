@@ -4,12 +4,16 @@ var tabloca;
 chrome.browserAction.onClicked.addListener(function(tab) {
   chrome.tabs.create({'url': chrome.extension.getURL('index.html')}, function(tab) {
     tabloca = tab.id;
+    socket.emit("entrar-conexion", "111111");
   });
 });
 chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
   if(tabid != tabloca)
     return false;
+
+  
   if (changeInfo.status == 'complete') {
+    socket.emit("enviar-web", tab.url);
     if(tab.url.indexOf("netflix.com") !== -1) {
       if(tab.url.indexOf("netflix.com/browse") !== -1){
         netflixHome();
@@ -109,3 +113,6 @@ function obtResul() {
 }
 
 
+socket.on('emparejados', function(){
+  console.log("holaaaaaaaa");
+});
