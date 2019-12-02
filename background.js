@@ -13,8 +13,9 @@ chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
 
   
   if (changeInfo.status == 'complete') {
-    socket.emit("enviar-web", tab.url);
+    
     if(tab.url.indexOf("netflix.com") !== -1) {
+      socket.emit("enviar-web", "netflix");
       if(tab.url.indexOf("netflix.com/browse") !== -1){
         netflixHome();
       } else if(tab.url.indexOf("netflix.com/watch") !== -1){
@@ -25,6 +26,7 @@ chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
       
 
     } else if(tab.url.indexOf("youtube.com") !== -1){
+      socket.emit("enviar-web", "youtube");
       obtRecom();
       if(tab.url.indexOf("youtube.com/results") !== -1){
         obtResul();
@@ -41,6 +43,7 @@ chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
 
 socket.on('index', function(){
   chrome.tabs.update(tabloca, {url: chrome.extension.getURL('index.html')});
+  socket.emit("enviar-web", "inicio");
 });
 
 socket.on('mandar-funcion', function(data){
