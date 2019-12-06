@@ -6,10 +6,14 @@ var io = require('socket.io')(server);
 server.listen(8080, function() {
 	console.log('Servidor corriendo');
 });
-
+var salas = [];
 io.on('connection', function(socket) {
     console.log('Conectado');
     
+
+    socket.on('random', function(resolve){
+      resolve(nRandom());
+    });
 
 
     socket.on('crear-conexion', function(data){
@@ -20,12 +24,7 @@ io.on('connection', function(socket) {
       io.to('sala'+data).emit('emparejados');
       
     });
-    socket.on("ver-conexion", function(){
-      console.log("room socket");
-      console.log();
-      console.log("total socket");
-      console.log(io.sockets.adapter.rooms);
-    });
+
 
     socket.on("enviar-web", function(data){
       io.to(Object.keys(socket.rooms)[1]).emit("web-cliente", data);
@@ -62,3 +61,14 @@ io.on('connection', function(socket) {
     });
 
 });
+function nRandom(){
+  var n = pad(Math.floor(Math.random() * 999999) + 1, 6);
+  if(salas.indexOf(n) !== -1) 
+    n = nRandom();
+  return n;
+}
+function pad(n, width, z) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}

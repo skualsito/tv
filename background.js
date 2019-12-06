@@ -4,13 +4,12 @@ var tabloca;
 chrome.browserAction.onClicked.addListener(function(tab) {
   chrome.tabs.create({'url': chrome.extension.getURL('index.html')}, function(tab) {
     tabloca = tab.id;
-    socket.emit("entrar-conexion", "111111");
+    //socket.emit("entrar-conexion", "111111");
   });
 });
 chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
   if(tabid != tabloca)
     return false;
-
   
   if (changeInfo.status == 'complete') {
     
