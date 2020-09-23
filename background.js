@@ -1,10 +1,19 @@
-var socket = io('http://11.11.15.8:8080');
-var tabloca;
+var socket = io('http://192.168.1.106:8080');
+var tabloca, qr, token;
 
 chrome.browserAction.onClicked.addListener(function(tab) {
   chrome.tabs.create({'url': chrome.extension.getURL('index.html')}, function(tab) {
     tabloca = tab.id;
-    //socket.emit("entrar-conexion", "111111");
+    if(!qr && !token) {
+      socket.emit("random", function(data){
+        qr = data.qr;
+        token = data.token;
+        localStorage.setItem("qrcode", qr);
+        localStorage.setItem("token", token);
+        socket.emit("entrar-conexion", qr);
+      });
+    }
+    
   });
 });
 chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
@@ -117,4 +126,17 @@ function obtResul() {
 
 socket.on('emparejados', function(){
   console.log("holaaaaaaaa");
+});
+
+
+
+
+//cerrar
+chrome.tabs.onRemoved.addListener(function(tabid, removed) {
+  if(tabid != tabloca)
+    return false;
+  
+    socket.emit('terminar-conexion', token);
+    qr = '';
+    token = '';
 });
