@@ -1,0 +1,14 @@
+version: "3.1"
+services:
+
+    nodejs:
+        image: node:alpine
+        environment: 
+            NODE_ENV: production
+        working_dir: /home/app
+        restart: always
+        volumes:
+            - ./nodejs:/home/app
+        command: npm run dev
+        ports:
+            - "8080:8080"

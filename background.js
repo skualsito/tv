@@ -1,4 +1,4 @@
-var socket = io('http://192.168.1.106:8080');
+var socket = io('http://192.168.0.104:8080');
 var tabloca, qr, token;
 
 chrome.browserAction.onClicked.addListener(function(tab) {
