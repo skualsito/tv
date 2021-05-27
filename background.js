@@ -1,8 +1,11 @@
-var socket = io('http://192.168.0.104:8080');
+var socket = io('http://192.168.0.104:3000');
 var tabloca, qr, token;
 
 chrome.browserAction.onClicked.addListener(function(tab) {
   chrome.tabs.create({'url': chrome.extension.getURL('index.html')}, function(tab) {
+
+    
+
     tabloca = tab.id;
     if(!qr && !token) {
       socket.emit("random", function(data){
@@ -16,6 +19,8 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     
   });
 });
+
+
 chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
   if(tabid != tabloca)
     return false;
@@ -35,9 +40,9 @@ chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
 
     } else if(tab.url.indexOf("youtube.com") !== -1){
       socket.emit("enviar-web", "youtube");
-      obtRecom();
+        scriptScrap('apps/yt/home.js');
       if(tab.url.indexOf("youtube.com/results") !== -1){
-        obtResul();
+        scriptScrap('apps/yt/busqueda.js');
       }
       if(tab.url.indexOf("youtube.com/watch") !== -1){
         socket.emit("com-bg-app", "activar-control");
@@ -51,7 +56,7 @@ chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
 
 socket.on('index', function(){
   chrome.tabs.update(tabloca, {url: chrome.extension.getURL('index.html')});
-  socket.emit("enviar-web", "inicio");
+  socket.emit("enviar-web", "control");
 });
 
 socket.on('mandar-funcion', function(data){
@@ -70,7 +75,7 @@ socket.on('obtener-netflix-audsub', function(){
 });
 function netflixHome(){
   chrome.tabs.executeScript(tabloca, {file:'js/jquery.min.js'}, function(result){
-    chrome.tabs.executeScript(tabloca, {file:'apps/netflix/home.js'}, function(resultado){
+    chrome.tabs.executeScript(tabloca, {file:'apps/netflix/home.js'}, async function(resultado){
         socket.emit("netflix-home", resultado);
     });
   });
@@ -98,20 +103,28 @@ function netflixSubtitulos() {
 
 
 //Youtube
-socket.on('obtener-recomendados-yt', function(){
-    obtRecom();
+
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+  console.log(msg);
+  socket.emit(msg[0].socket, msg);
 });
 
-function obtRecom(){
-  chrome.tabs.executeScript(tabloca, {file:'js/jquery.min.js'}, function(result){
-    chrome.tabs.executeScript(tabloca, {file:'apps/yt/home.js'}, function(resultado){
-        socket.emit("yt-on", resultado);
+socket.on('obtener-recomendados-yt', function(){
+  scriptScrap('apps/yt/home.js');
+});
+
+function scriptScrap(archivo){
+  chrome.tabs.executeScript(tabloca, {file:'js/jquery.min.js'}, ()=>{
+    chrome.tabs.executeScript(tabloca, {file:'js/loading.js'}, ()=>{
+      chrome.tabs.executeScript(tabloca, {file:archivo}, ()=>{
+          
+      });
     });
   });
 }
 
 socket.on('obtener-resultados-yt', function(){
-  obtResul();
+  scriptScrap('apps/yt/busqueda.js');
 });
 
 function obtResul() {
@@ -124,8 +137,8 @@ function obtResul() {
 }
 
 
-socket.on('emparejados', function(){
-  console.log("holaaaaaaaa");
+socket.on('emparejados', function(data){
+  console.log("background:emparejados", data);
 });
 
 
@@ -137,6 +150,5 @@ chrome.tabs.onRemoved.addListener(function(tabid, removed) {
     return false;
   
     socket.emit('terminar-conexion', token);
-    qr = '';
-    token = '';
+    
 });
