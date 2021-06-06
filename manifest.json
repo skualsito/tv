@@ -2,7 +2,7 @@
     "name": "AppTv",
     "version": "1.0",
     "description": "Build an Extension!",
-    "permissions": ["declarativeContent", "storage", "tabs", "activeTab", "http://*/*", "https://*/*"],
+    "permissions": ["declarativeContent", "storage", "tabs", "activeTab", "*://*/*"],
     "background": {
       "scripts": ["js/socket.io.js", "background.js"],
       "persistent": false
@@ -15,5 +15,5 @@
         "default_icon": "avatar.png"
     },
     "manifest_version": 2,
-    "content_security_policy": "script-src 'self'; object-src 'self'"
+    "content_security_policy": "script-src 'self'; object-src 'self'; "
   }

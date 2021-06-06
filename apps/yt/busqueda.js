@@ -1,12 +1,13 @@
-var scrollT = 0, arrayRecomendados = [], resultado, intervaloBusq;
+console.log("script: YT-busqueda");
+var scrollT = 0, arrayRecomendados = [], resultado, intervalo;
 
-var promesaIntervaloBusq = new Promise((resolve, reject) => {
-    intervaloBusq = setInterval(function(){ return scrollearWeb(scrollT).then(() => resolve(true)); }, 1000);
+var promesaIntervalo = new Promise((resolve, reject) => {
+    intervalo = setInterval(function(){ return scrollearWeb(scrollT).then(() => resolve(true)); }, 1000);
 });
 
-iniciarBusq();
+iniciar();
 
-async function llenarResultadoBusq(){
+async function llenarResultado(){
     return await new Promise((resolve)=>{
         jQuery("ytd-video-renderer").map(function(a, b){
             var img = jQuery(this).find("#thumbnail img").attr("src");
@@ -17,7 +18,6 @@ async function llenarResultadoBusq(){
             var canalverif = jQuery(this).find(".badge-style-type-verified").length;
             var tiempo = jQuery(this).find("#metadata-line")[0].innerText;
             arrayRecomendados.push({titulo: titulo, href: link, tiempo: tiempo, canal: canal, canalink: canalink, verif: canalverif, img: img});
-            console.log(a, jQuery("ytd-video-renderer").length-1);
             if(a == jQuery("ytd-video-renderer").length-1){
                 resolve([{recomendados: arrayRecomendados, socket: "servidor-resultados"}])
             }
@@ -29,21 +29,21 @@ async function llenarResultadoBusq(){
     });
 }
 
-async function iniciarBusq(){
-    return await promesaIntervaloBusq.then(()=>{
-        return llenarResultadoBusq();
+async function iniciar(){
+    return await promesaIntervalo.then(()=>{
+        return llenarResultado();
     });
 }
 
-function scrollearWebBusq(top){
+function scrollearWeb(top){
     
     return new Promise((resolve)=>{
         if(!jQuery("ytd-continuation-item-renderer").find("paper-spinner").attr("active") != undefined){
             scrollT = top+1000;
             window.scrollTo({top: scrollT});
-            if(scrollT >= 10000){
+            if(scrollT >= 5000){
                 resolve(true);
-                clearInterval(intervaloBusq);
+                clearInterval(intervalo);
             }
         }
     });

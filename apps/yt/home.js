@@ -1,3 +1,4 @@
+console.log("script: YT-home");
 var scrollT = 0, arrayRecomendados = [], resultado, intervalo;
 
 var promesaIntervalo = new Promise((resolve, reject) => {
@@ -40,7 +41,7 @@ function scrollearWeb(top){
         if(!jQuery("ytd-continuation-item-renderer").find("paper-spinner").attr("active") != undefined){
             scrollT = top+1000;
             window.scrollTo({top: scrollT});
-            if(scrollT >= 10000){
+            if(scrollT >= 5000){
                 resolve(true);
                 clearInterval(intervalo);
             }

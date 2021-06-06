@@ -14,17 +14,29 @@ $(function () {
     qrcode.makeCode(`juan.com/${qr}`);
     $(".qr-contenido h5").html(qr);
 
+
     $(document).on("click", ".btn-qr", function () {
         
         $(".qr-contenido").toggleClass("activo");
         if(!$(".qr-contenido").hasClass("activo"))
             return false;
-
-        
-        
         
     });
     $(document).on("click", ".btn-search", function () {
         $(".buscador-input").toggleClass("activo");
     });
+
+    chrome.runtime.onMessage.addListener(
+        function(request, sender, sendResponse) {
+            console.log(request);
+            if(!request.ok){
+                $('.btn-apptv').removeClass("focus"); 
+                $(`.btn-apptv[x="${request.x}"][y="${request.y}"]`).addClass("focus");
+            } else {
+                $(`.btn-apptv[x="${request.x}"][y="${request.y}"]`).click();
+            }
+            
+    });
+
+    
 });

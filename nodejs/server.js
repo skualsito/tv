@@ -3,7 +3,7 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server, {
   cors: {
-      origin: "http://localhost:8080",
+      origin: ["http://localhost", "http://192.168.0.104"],
       methods: ["GET", "POST"],
       transports: ['websocket', 'polling'],
       credentials: true
@@ -95,6 +95,11 @@ io.on('connection', function(socket) {
       if(data)
       io.to([ ...socket.rooms][1]).emit("netflix-subtitulos-client", data[0]);
       console.log('socket:netflix-subtitulos / room:'+[ ...socket.rooms][1]+' etflix-subtitulos-client= '+data[0]);
+    });
+
+    socket.on("control-boton-server", function(data){
+      io.to([ ...socket.rooms][1]).emit("control-boton", data);
+      console.log('socket:control-boton-server / room:'+[ ...socket.rooms][1]+' control-boton= '+data);
     });
 
 });

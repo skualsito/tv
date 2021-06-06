@@ -5,295 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Prueba Tele</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+
     <script src="js/jquery.min.js"></script>
     <script src="js/qrcode.min.js"></script>
     <script src="js/socket.io.js"></script>
     <script src="js/apptv.js"></script>
 </head>
 <style>
-@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
-@import url('https://use.fontawesome.com/releases/v5.0.7/css/all.css');
-:root{
-    --var-rosa: radial-gradient( circle farthest-corner at 10% 20%,  rgba(199,46,149,0.81) 0%, rgba(246,70,84,1) 89.5% );
-    --var-azul: linear-gradient( to right,  rgba(51,204,255,1) 4.8%, rgba(51,102,255,1) 85.5% );
-    --var-gris: linear-gradient( to right,  rgba(43,58,103,1) 11.5%, rgba(122,134,172,1) 124.1% );
-    --var-rojo: linear-gradient( to right,  rgba(122,35,52,1) 27.5%, rgba(62,9,27,1) 92.7% );
-    --var-violeta: linear-gradient(to right, #667eea 0%, #764ba2 100%);
-}
-.app-tv {
-    background: #161623; 
-    font-family: 'Roboto', sans-serif;
-}
-.app-tv.rose::after {
-    background: var(--var-rojo);
-}
-.app-tv.rose::before {
-    background: var(--var-rosa);
-}
-.app-tv.blue::after {
-    background: var(--var-rosa);
-}
-.app-tv.blue::before {
-    background: var(--var-azul);
-}
-.app-tv.gray::after {
-    background: var(--var-violeta);
-}
-.app-tv.gray::before {
-    background: var(--var-gris);
-}
-.app-tv.red::after {
-    background: var(--var-azul);
-}
-.app-tv.red::before {
-    background: var(--var-rojo);
-}
 
-.app-tv::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--var-violeta);
-    clip-path: circle(30% at right 78%);
-}
-.app-tv::before {content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--var-rosa);
-    clip-path: circle(20% at 10% 18%);
-}
-.btn-apptv:focus, .btn-apptv:hover {
-    -ms-transform: scale(1.05);
-    -webkit-transform: scale(1.05);
-    -moz-transform: scale(1.05);
-    -o-transform: scale(1.05);
-    transform: scale(1.05);
-    /* -moz-box-shadow: 0px 0px 30px #fff;
-    -webkit-box-shadow: 0px 0px 30px #fff;
-    box-shadow: 0px 0px 30px #fff; */
-}
-/* .btn-apptv {
-    width: 220px;
-    height: 100px;
-    text-align: center;
-    line-height: 100px;
-    padding: 10px;
-    border-radius: 10px;
-    color: #fff;
-    position: relative;
-    box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.13);
-    background: #fff;
-    margin: 15px;
-    float: left;
-    -webkit-transition: all .2s ease-out;
-    -moz-transition: all .2s ease-out;
-    -o-transition: all .2s ease-out;
-    transition: all .2s ease-out;
-} */
-.btn-apptv {
-    width: 220px;
-    height: 100px;
-    position: relative;
-    box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.3);
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    z-index: 1;
-    margin: 15px;
-    float: left;
-    -webkit-transition: all .2s ease-out;
-    -moz-transition: all .2s ease-out;
-    -o-transition: all .2s ease-out;
-    transition: all .2s ease-out;
-}
-.btn-apptv.yt:after {
-    content: " ";
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: rgb(255,255,255);
-    background: linear-gradient(25deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 100%);
-    border-radius: 10px;
-}
-.btn-apptv.yt:before {
-    content: " ";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    top: 0;
-    right: 0;
-    background: rgb(0,0,0);
-    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%);
-}
-.btn-apptv i {
-    float: left;
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    font-size: 40px;
-}
-.btn-apptv p {
-    float: left;
-    margin: 0;
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    font-size: 30px;
-    font-weight: bold;
-}
-.btn-apptv img {
-    max-height: 100px;
-    max-width: 100%;
-}
-
-
-.btn-apptv.yt {
-    background: rgba(255, 255, 255, 0.6);
-}
-.btn-apptv.nx {
-    background: rgba(27, 25, 25,  0.6);
-}
-.bienvenida h1 {
-    font-size: 42px;
-    font-weight: 100;
-    margin: 0;
-}
-
-.bienvenida {
-    color: #fff;
-    float: left;
-}
-
-.bienvenida p {
-    margin: 0;
-    padding: 0 3px;
-}
-.bienvenida p::first-letter {
-    text-transform: uppercase;
-}
-
-
-.navbar-apptv {
-    overflow: hidden;
-    margin: 40px;
-    z-index: 1;
-    position: relative;
-}
-
-.buscador {
-    float: right;
-}
-
-.buscador-input {
-    float: left;
-    height: 65px;
-    line-height: 65px;
-    width: 0px;
-    overflow: hidden;
-    -webkit-transition: all .2s ease-out;
-    -moz-transition: all .2s ease-out;
-    -o-transition: all .2s ease-out;
-    transition: all .2s ease-out;
-}
-.buscador-input.activo {
-    width: 300px;
-}
-.buscador-input input {
-    background: rgba(255, 255, 255, 0.5);
-    width: 95%;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    padding: 10px 5px;
-}
-
-.buscador .btn-search {
-    font-size: 30px;
-    color: #fff;
-    padding: 14px;
-    cursor: pointer;
-    float: right;
-}
-
-.contenedor-aplicaciones {
-    margin: 0 30px;
-}
-
-.qr {
-    position: fixed;
-    right: 10px;
-    bottom: 10px;
-    z-index: 1;
-}
-
-.qr-contenido {
-    position: absolute;
-    right: 65px;
-    bottom: 5px;
-    box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.13);
-    background: #fff;
-    width: 200px;
-    height: 200px;
-    border-radius: 15px;
-    opacity: 0;
-    z-index: -10;
-    -webkit-transition: all .2s ease-out;
-    -moz-transition: all .2s ease-out;
-    -o-transition: all .2s ease-out;
-    transition: all .2s ease-out;
-}
-.qr-contenido.activo {
-    opacity: 1;
-    z-index: 1;
-}
-.qr-contenido:after {
-    content: " ";
-    right: -10px;
-    bottom: 8px;
-    position: absolute;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-left: 15px solid white;
-}
-
-
-.qr .btn-qr {
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.13);
-    background: #fff;
-    border-radius: 50%;
-    font-size: 22px;
-    cursor: pointer;
-}
-
-.qr-contenido h3 {
-    text-align: center;
-    margin-bottom: 5px;
-}
-
-.qr-contenido img {max-height: 100px;margin: 0 auto;display: block;}
-
-.qr-contenido h5 {
-    text-align: center;
-    font-size: 28px;
-    margin: 0;
-}
 </style>
 <body class="app-tv">
     <!-- <div class="btn-apptv yt">
@@ -310,17 +31,44 @@
             <div class="buscador-input"><input type="text" id="txtSearch"></div>
         </div>
     </div>
-    <div class="contenedor-aplicaciones">
-        <a href="https://youtube.com">
-        <div class="btn-apptv yt">
-            <img src="images/youtube.png" alt="YouTube">
+    <div class="contenedor-bloques">
+        <div class="contenedor-aplicaciones">
+            <a href="https://youtube.com">
+                <div class="btn-apptv yt" x="1" y="1">
+                    <img src="images/youtube.png" alt="YouTube">
+                </div>
+            </a>
+            <a href="https://netflix.com">
+                <div class="btn-apptv nx" x="2" y="1">
+                    <img src="images/netflix.png" alt="Netflix">
+                </div>
+            </a>
         </div>
-        </a>
-        <a href="https://netflix.com">
-        <div class="btn-apptv nx">
-            <img src="images/netflix.png" alt="Netflix">
+    </div>
+    <div class="contenedor-bloques">
+        <h2>Proximamente</h2>
+        <div class="contenedor-aplicaciones">
+            <a href="#">
+                <div class="btn-apptv pv">
+                    <img src="images/primevideo.png" alt="Prime Video">
+                </div>
+            </a>
+            <a href="#">
+                <div class="btn-apptv tw">
+                    <img src="images/twitch.png" alt="Twitch">
+                </div>
+            </a>
+            <a href="#">
+                <div class="btn-apptv dp">
+                    <img src="images/disneyplus.png" alt="Disney +">
+                </div>
+            </a>
+            <a href="#">
+                <div class="btn-apptv fw">
+                    <img src="images/flow.png" alt="Flow">
+                </div>
+            </a>
         </div>
-        </a>
     </div>
 
     <div class="qr">
