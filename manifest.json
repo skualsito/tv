@@ -1,7 +1,7 @@
 {
-    "name": "AppTv",
+    "name": "JSmart",
     "version": "1.0",
-    "description": "Build an Extension!",
+    "description": "Convertir el navegador en un Smart-TV",
     "permissions": ["declarativeContent", "storage", "tabs", "activeTab", "*://*/*"],
     "background": {
       "scripts": ["js/socket.io.js", "background.js"],
