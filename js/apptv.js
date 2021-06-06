@@ -11,7 +11,7 @@ $(function () {
     
     qrcode.clear();
     let qr = localStorage.getItem("qrcode");
-    qrcode.makeCode(`juan.com/${qr}`);
+    qrcode.makeCode(`jsmart.juanalmada.com/?n=${qr}`);
     $(".qr-contenido h5").html(qr);
 
 
