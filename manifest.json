@@ -8,11 +8,14 @@
       "persistent": false
     },
     "icons": {
-        "128": "avatar.png"
+        "16": "iconos/ICONETE16x16.png",
+        "32": "iconos/ICONETE32x32.png",
+        "48": "iconos/ICONETE48x48.png",
+        "128": "iconos/ICONETE128x128.png"
     },
     "browser_action": {
         "default_title": "",
-        "default_icon": "avatar.png"
+        "default_icon": "iconos/ICONETE128x128.png"
     },
     "manifest_version": 2,
     "content_security_policy": "script-src 'self'; object-src 'self'; "
