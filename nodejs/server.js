@@ -3,7 +3,7 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server, {
   cors: {
-      origin: ["http://localhost", "http://192.168.0.104"],
+      origin: ["http://localhost", "http://192.168.0.104", "http://juanalmadaa.com"],
       methods: ["GET", "POST"],
       transports: ['websocket', 'polling'],
       credentials: true
@@ -11,7 +11,7 @@ const io = require('socket.io')(server, {
   allowEIO3: true
 });
 const md5 = require('md5');
-const puerto = process.env.port || 3000;
+const puerto = process.env.port || 3001;
 const cors = require('cors');
 
 
