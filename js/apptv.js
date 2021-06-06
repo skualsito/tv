@@ -17,8 +17,8 @@ $(function () {
 
     $(document).on("click", ".btn-qr", function () {
         
-        $(".qr-contenido").toggleClass("activo");
-        if(!$(".qr-contenido").hasClass("activo"))
+        $(".qr-contenido, .qr").toggleClass("activo");
+        if(!$(".qr-contenido, .qr").hasClass("activo"))
             return false;
         
     });
