@@ -1,6 +1,6 @@
 {
     "name": "JSmart",
-    "version": "1.0",
+    "version": "1.013062021",
     "description": "Convertir el navegador en un Smart-TV",
     "permissions": ["declarativeContent", "storage", "tabs", "activeTab", "*://*/*"],
     "background": {
