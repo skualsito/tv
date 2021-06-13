@@ -124,10 +124,10 @@ io.on('connection', function(socket) {
 
     socket.on("enviar-mail", function(data){
       var mailOptions = {
-        from: 'juanalmadaa@gmail.com',
+        from: data.email,
         to: 'juanalmadaa@gmail.com',
         subject: 'Reporte de error JSmart',
-        text: data
+        text: `Email: ${data.email} - Descripcion: ${data.descripcion}`
       };
       mail.sendMail(mailOptions, function(error, info){
         if (error) {
