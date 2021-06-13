@@ -1,6 +1,17 @@
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
+var nodemailer = require('nodemailer');
+var mail = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'juanalmadaa@gmail.com',
+    pass: 'enikma94*'
+  }
+});
+
+
+
 /* const io = require('socket.io')(server, {
   cors: {
       origin: ["http://localhost", "http://192.168.0.104", "http://juanalmadaa.com", "chrome-extension://*", "*"],
@@ -110,6 +121,23 @@ io.on('connection', function(socket) {
       io.to([ ...socket.rooms][1]).emit("control-boton", data);
       console.log('socket:control-boton-server / room:'+[ ...socket.rooms][1]+' control-boton= '+data);
     });
+
+    socket.on("enviar-mail", function(data){
+      var mailOptions = {
+        from: 'juanalmadaa@gmail.com',
+        to: 'juanalmadaa@gmail.com',
+        subject: 'Reporte de error JSmart',
+        text: data
+      };
+      mail.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+      console.log('socket:enviar-mail');
+    })
 
 });
 function nRandom(){
