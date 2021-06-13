@@ -1,5 +1,5 @@
-//var socket = io('http://localhost:3000');
-var socket = io('http://jsmart-server.juanalmada.com');
+var socket = io('http://localhost:3001');
+//var socket = io('http://jsmart-server.juanalmada.com');
 
 
 
@@ -19,8 +19,10 @@ chrome.browserAction.onClicked.addListener(function(tab) {
         token = data.token;
         localStorage.setItem("qrcode", qr);
         localStorage.setItem("token", token);
-        socket.emit("entrar-conexion", qr);
+        socket.emit("entrar-conexion-background", qr);
       });
+    } else {
+      socket.emit("entrar-conexion-background", qr);
     }
     
   });
@@ -149,6 +151,7 @@ function obtResul() {
 
 socket.on('emparejados', function(data){
   console.log("background:emparejados", data);
+  chrome.tabs.sendMessage(tabloca, {emparejados: true});
 });
 
 

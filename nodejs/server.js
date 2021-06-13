@@ -1,18 +1,22 @@
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
-const io = require('socket.io')(server, {
+/* const io = require('socket.io')(server, {
   cors: {
-      origin: ["http://localhost", "http://192.168.0.104", "http://juanalmadaa.com"],
+      origin: ["http://localhost", "http://192.168.0.104", "http://juanalmadaa.com", "chrome-extension://*", "*"],
       methods: ["GET", "POST"],
       transports: ['websocket', 'polling'],
       credentials: true
   },
   allowEIO3: true
+}); */
+const io = require('socket.io')(server, {
+  cors: {
+      origin: "*"
+  }
 });
 const md5 = require('md5');
 const puerto = process.env.port || 3001;
-const cors = require('cors');
 
 
 server.listen(puerto, function() {
@@ -52,6 +56,11 @@ io.on('connection', function(socket) {
       socket.join('sala'+data);
       io.to('sala'+data).emit('emparejados', data);
       console.log('socket:entrar-conexion / '+'sala'+data);
+    });
+
+    socket.on('entrar-conexion-background', function(data){
+      socket.join('sala'+data);
+      console.log('socket:entrar-conexion-background / '+'sala'+data);
     });
 
 

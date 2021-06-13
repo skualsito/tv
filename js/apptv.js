@@ -12,6 +12,7 @@ $(function () {
     qrcode.clear();
     let qr = localStorage.getItem("qrcode");
     qrcode.makeCode(`jsmart.juanalmada.com/?n=${qr}`);
+    //qrcode.makeCode(`http://localhost/?n=${qr}`);
     $(".qr-contenido h5").html(qr);
 
 
@@ -28,12 +29,17 @@ $(function () {
 
     chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
-            console.log(request);
-            if(!request.ok){
+            console.log(request, request.emparejados);
+            if(!request.ok && request.x && request.y){
                 $('.btn-apptv').removeClass("focus"); 
                 $(`.btn-apptv[x="${request.x}"][y="${request.y}"]`).addClass("focus");
-            } else {
+            } else if(request.ok && request.x && request.y) {
                 $(`.btn-apptv[x="${request.x}"][y="${request.y}"]`).click();
+            } 
+            
+            if(request.emparejados){
+                $(".btn-qr").removeClass("conectado").addClass("conectado");
+                $(".qr-contenido, .qr").removeClass("activo");
             }
             
     });
